@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DoF-Gaussian: Controllable Depth-of-Field for 3D Gaussian Splatting</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+  </head>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- 引入 MathJax -->
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let content = document.getElementById("markdown-content").innerHTML;
+      
+      // 解析 Markdown
+      document.getElementById("markdown-content").innerHTML = marked(content);
+      
+      // 解析 LaTeX 公式
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub, "markdown-content"]);
+    });
+  </script>
+  <!-- cover -->
+  <section>
+    <div class="jumbotron text-center mt-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h1 class="title is-1 publication-title">DoF-Gaussian: Controllable Depth-of-Field <br>for 3D Gaussian Splatting</h1>
+            <h4 style="color:#5a6268;">CVPR,2025</h4>
+            <hr>
+            <h6><a href="https://leoshen917.github.io/" target="_blank">Liao Shen</a><sup>1,2</sup>, 
+                <a href="https://tqtqliu.github.io/" target="_blank">Tianqi Liu</a><sup>1,2</sup>, 
+                <a href="https://huiqiang-sun.github.io/" target="_blank">Huiqiang Sun</a><sup>1,2</sup>, 
+                <a href="lijia7.github.io" target="_blank">Jiaqi Li</a><sup>1</sup>, 
+                <a href="http://english.aia.hust.edu.cn/info/1030/1072.htm" target="_blank">Zhiguo Cao</a><sup>1</sup>,
+                <a href="https://weivision.github.io/" target="_blank">Wei Li</a><sup>2</sup>, 
+                <a href="https://www.mmlab-ntu.com/person/ccloy/index.html" target="_blank">Chen Change Loy</a><sup>2</sup>,
+                
+            </h6>
+            <p><sup>1</sup>Huazhong University of Science and Technology &nbsp;&nbsp; 
+               <sup>2</sup>S-Lab, Nanyang Technological University</p>
+            <div class="row justify-content-center">
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://dof-gaussian.github.io/" role="button"  target="_blank"> <!-- 需要改 -->
+                    <i class="fa fa-file"></i> Paper </a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://dof-gaussian.github.io/" role="button"  target="_blank"> <!-- 需要改 -->
+                    <i class="fa fa-file"></i> arXiv </a> </p>
+              </div>
+              <!-- <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://youtu.be/sqCy7ffTEEY" role="button"  target="_blank">
+                    <i class="fa fa-file"></i> Video </a> </p>
+              </div> -->
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://dof-gaussian.github.io/" role="button"  target="_blank">
+                    <i class="fa fa-github-alt"></i> Code </a> </p>
+              </div>
+              <!-- <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://github.com/xingyi-li/3d-cinemagraphy/blob/main/pdf/3d-cinemagraphy-supp.pdf" role="button"  target="_blank">
+                    <i class="fa fa-file"></i> Supplementary </a> </p>
+              </div> -->
+              <!-- <div class="column">
+                <p class="mb-5"><a class="btn btn-large btn-light" href="https://github.com/xingyi-li/3d-cinemagraphy/blob/main/pdf/3d-cinemagraphy-poster.pdf" role="button"  target="_blank">
+                  <i class="fa fa-file"></i> Poster </a> </p> -->
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+<!--             <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                  <source src="images/teaser_no_audio.mp4" type="video/mp4">
+              </video> -->
+            <img class="img-fluid" src="images/teaser1.png">
+              <!-- <br><br> -->
+          <p class="text-justify">  </p>
+          <p class="text-justify">Given a set of multi-view input images with shallow DoF, DoF-Gaussian can reconstruct a 3D-GS representation of a sharp scene. Thanks to our lens-based design, we can also achieve controllable DoF effects for a variety of applications. (Zoom-in for best view)
+</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- abstract -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Abstract</h3>
+            <hr style="margin-top:0px">
+            <!-- <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                  <source src="images/teaser.mp4" type="video/mp4">
+              </video> -->
+<!--             <img class="img-fluid" src="images/pipeline-v4.png"> -->
+              <!-- <br><br> -->
+          <p class="text-justify">  </p>
+          <p class="text-justify">Recent advances in 3D Gaussian Splatting (3D-GS) have shown remarkable success in representing 3D scenes and generating high-quality, novel views in real-time. However, 3D-GS and its variants assume that input images are captured based on pinhole imaging and are fully in focus. This assumption limits their applicability, as real-world images often feature shallow depth-of-field (DoF). In this paper, we introduce DoF-Gaussian, a controllable depth-of-field method for 3D-GS. We develop a lens-based imaging model based on geometric optics principles to control DoF effects. To ensure accurate scene geometry, we incorporate depth priors adjusted per scene, and we apply defocus-to-focus adaptation to minimize the gap in the circle of confusion. We also introduce a synthetic dataset to assess refocusing capabilities and the model’s ability to learn precise lens parameters. Our framework is customizable and supports various interactive applications. Extensive experiments confirm the effectiveness of our method.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Overview video</h3>
+            <hr style="margin-top:0px">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe style="clip-path: inset(1px 1px)" width="100%" height="100%" src="https://www.youtube.com/embed/sqCy7ffTEEY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> -->
+
+   <!-- method -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Method</h3>
+            <hr style="margin-top:0px">
+<!--             <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                  <source src="images/teaser_no_audio.mp4" type="video/mp4">
+              </video> -->
+            <img class="img-fluid" src="images/pipeline.png">
+              <!-- <br><br> -->
+          <p class="text-justify">  </p>
+          <p class="text-justify"><x-md>Overview of DoF-Gaussian. Given input images \(I\) with shallow DoF, we first apply SfM from COLMAP to obtain sparse depth \(D_{sparse}\), which is used to train a depth network to derive per-scene depth priors \(D_{pred}\). We then employ \(D_{pred}\) to regularize the Gaussians rendered depth map \(D\). Next, by developing a lens imaging model, we can render defocused images \(C^*\) to simulate input images. To minimize the discrepancy in CoC, we propose an adaptation using the weight map. Finally, we can render fully clear images for novel view synthesis and achieve various effects by our controllable DoF framework.</x-md>
+</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- Appearsnce Hallucination
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3> Appearance Hallucination of Brandenburg Gate </h3>
+            <hr style="margin-top:0px">
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/app_Gate_c.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> of Brandenburg Gate -->
+
+  <!-- Appearance
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Appearance Hallucination of Brandenburg Gate</h3>
+            <hr style="margin-top:0px">
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/app_Gate_c.mp4" type="video/mp4">
+            <h3>Appearance Hallucination of Trevi Fountain</h3>
+            <hr style="margin-top:0px">
+            </video>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/app_Fountain_c.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> Hallucination -->
+
+ <!-- Appearance Hallucination -->
+<!--   <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Appearance Hallucination</h3>
+            <hr style="margin-top:0px">
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">Brandenburg Gate</h4>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/app_Gate_c.mp4" type="video/mp4">
+            </video>
+
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">Trevi Fountain</h4>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/app_Fountain_c.mp4" type="video/mp4">
+            </video>
+            </video>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> -->
+
+  <!-- Cross-Appearance Hallucination -->
+<!--   <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Cross-Appearance Hallucination</h3>
+            <hr style="margin-top:0px">
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">From Trevi Fountain to Brandenburg Gate</h4>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/Fountain2Gate_c.mp4" type="video/mp4">
+            </video>
+
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">From Brandenburg Gate to Trevi Fountain</h4>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/Gate2Fountain_c.mp4" type="video/mp4">
+            </video>
+            </video>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> -->
+
+  <!-- Appearance Hallucination From Artworks -->
+<!--   <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Appearance Hallucination From Artworks</h3>
+            <hr style="margin-top:0px">
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/art_c.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> -->
+
+<!-- citing -->
+<div class="container">
+  <div class="row ">
+    <div class="col-12">
+        <h3>Citation</h3>
+        <hr style="margin-top:0px">
+            <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">
+<code>
+  <!-- @article{shen2024dreammover,
+  title={DreamMover: Leveraging the Prior of Diffusion Models for Image Interpolation with Large Motion},
+  author={Shen, Liao and Liu, Tianqi and Sun, Huiqiang and Ye, Xinyi and Li, Baopu and Zhang, Jianming and Cao, Zhiguo},
+  journal={arXiv preprint arXiv:2409.09605},
+  year={2024}
+} -->
+</code></pre>
+        <hr>
+    </div>
+  </div>
+</div>
+
+  <footer class="text-center" style="margin-bottom:10px">
+      Thanks to <a href="https://lioryariv.github.io/" target="_blank">Lior Yariv</a> for the website template.
+  </footer>
+  <!-- <div class="section" style="text-align:center; padding:0 0 20px 0">
+    <a href="https://clustrmaps.com/site/1c0az"  title="Visit tracker"><img src="//www.clustrmaps.com/map_v2.png?d=nZv9K4lgbT_6bqyhcybzgXaeoDl_UU0mzFefY0U6bEY&cl=ffffff" /></a>
+</div> -->
+
+</body>
+</html>
